@@ -1,6 +1,7 @@
 package com.minita.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,23 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.minita.security.jwt.AuthEntryPointJwt;
 import com.minita.security.jwt.AuthTokenFilter;
 import com.minita.security.service.UserDetailsServiceImpl;
 
 @Configuration
-//@EnableGlobalMethodSecurity(
-//		// securedEnabled = true,
-//		// jsr250Enabled = true,
-//		prePostEnabled = true)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 60, redisNamespace = "MINITA_REDIS")
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
 public class WebSecurityConfig {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
-
-	@Autowired
-	private AuthEntryPointJwt unauthorizedHandler;
 
 	@Bean
 	AuthTokenFilter authenticationJwtTokenFilter() {
@@ -40,10 +36,8 @@ public class WebSecurityConfig {
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
 		authProvider.setUserDetailsService(userDetailsService);
 		authProvider.setPasswordEncoder(passwordEncoder());
-
 		return authProvider;
 	}
 
@@ -62,11 +56,10 @@ public class WebSecurityConfig {
 
 		http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
 				.requestMatchers("/api/test/**").permitAll().anyRequest().authenticated().and().httpBasic().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 		http.authenticationProvider(authenticationProvider());
 
-		// http.addFilterBefore(authenticationJwtTokenFilter(),
-		// UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 
