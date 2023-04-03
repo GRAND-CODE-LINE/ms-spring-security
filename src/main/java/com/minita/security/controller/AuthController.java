@@ -85,7 +85,7 @@ public class AuthController {
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
 
-		List<Role> rolesf = roleRepository.findAll();
+
 
 		
 
