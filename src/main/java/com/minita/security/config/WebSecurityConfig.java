@@ -55,8 +55,8 @@ public class WebSecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
-				.requestMatchers("/api/test/**").permitAll().anyRequest().authenticated().and().httpBasic().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+				.requestMatchers("api/test/**").permitAll().anyRequest().authenticated().and().httpBasic().and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
 		http.authenticationProvider(authenticationProvider());
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
