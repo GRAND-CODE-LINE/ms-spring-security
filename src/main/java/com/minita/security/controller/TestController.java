@@ -1,20 +1,27 @@
 package com.minita.security.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+import com.minita.security.model.Role;
+import com.minita.security.repository.RoleRepository;
+
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+	@Autowired
+	RoleRepository roleRepository;
 	@GetMapping("/all")
-	public String allAccess() {
-		return "Public Content.";
+	public List<Role> allAccess() {
+		return roleRepository.findAll();
 	}
-	
+
 	@GetMapping("/user")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public String userAccess() {
@@ -23,8 +30,9 @@ public class TestController {
 
 	@GetMapping("/mod")
 	@PreAuthorize("hasRole('MODERATOR')")
-	public String moderatorAccess() {
-		return "Moderator Board.";
+	public List<Role> moderatorAccess() {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		return roleRepository.findAll();
 	}
 
 	@GetMapping("/admin")
