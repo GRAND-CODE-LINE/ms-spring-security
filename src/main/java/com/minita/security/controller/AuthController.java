@@ -32,7 +32,7 @@ import com.minita.security.service.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -51,7 +51,7 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	@PostMapping("/signin")
+	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
