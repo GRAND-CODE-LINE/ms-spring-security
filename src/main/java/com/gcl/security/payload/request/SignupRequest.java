@@ -1,4 +1,4 @@
-package com.minita.security.payload.request;
+package com.gcl.security.payload.request;
 
 import java.util.Set;
 

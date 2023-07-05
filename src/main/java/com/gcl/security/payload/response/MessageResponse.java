@@ -1,4 +1,4 @@
-package com.minita.security.payload.response;
+package com.gcl.security.payload.response;
 
 public class MessageResponse {
 	private String message;

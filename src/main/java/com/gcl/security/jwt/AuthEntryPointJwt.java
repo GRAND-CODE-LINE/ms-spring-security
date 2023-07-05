@@ -1,4 +1,4 @@
-package com.minita.security.jwt;
+package com.gcl.security.jwt;
 
 import java.io.IOException;
 

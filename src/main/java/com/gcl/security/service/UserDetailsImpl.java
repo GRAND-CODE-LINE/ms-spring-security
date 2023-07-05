@@ -1,4 +1,4 @@
-package com.minita.security.service;
+package com.gcl.security.service;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.minita.security.model.User;
+import com.gcl.security.model.User;
 
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;

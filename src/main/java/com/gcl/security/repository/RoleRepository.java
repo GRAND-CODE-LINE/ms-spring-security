@@ -1,12 +1,12 @@
-package com.minita.security.repository;
+package com.gcl.security.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.minita.security.model.ERole;
-import com.minita.security.model.Role;
+import com.gcl.security.model.ERole;
+import com.gcl.security.model.Role;
 
 
 @EnableMongoRepositories

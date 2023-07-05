@@ -1,4 +1,4 @@
-package com.minita.security.config;
+package com.gcl.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.minita.security.jwt.AuthTokenFilter;
-import com.minita.security.service.UserDetailsServiceImpl;
+
+import com.gcl.security.jwt.AuthTokenFilter;
+import com.gcl.security.service.UserDetailsServiceImpl;
 
 @Configuration
 public class WebSecurityConfig implements WebMvcConfigurer {

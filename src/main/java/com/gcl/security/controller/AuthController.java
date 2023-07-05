@@ -1,4 +1,4 @@
-package com.minita.security.controller;
+package com.gcl.security.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.minita.security.jwt.JwtUtils;
-import com.minita.security.model.ERole;
-import com.minita.security.model.Role;
-import com.minita.security.model.User;
-import com.minita.security.payload.request.LoginRequest;
-import com.minita.security.payload.request.SignupRequest;
-import com.minita.security.payload.response.JwtResponse;
-import com.minita.security.payload.response.MessageResponse;
-import com.minita.security.repository.RoleRepository;
-import com.minita.security.repository.UserRepository;
-import com.minita.security.service.UserDetailsImpl;
+import com.gcl.security.jwt.JwtUtils;
+import com.gcl.security.model.ERole;
+import com.gcl.security.model.Role;
+import com.gcl.security.model.User;
+import com.gcl.security.payload.request.LoginRequest;
+import com.gcl.security.payload.request.SignupRequest;
+import com.gcl.security.payload.response.JwtResponse;
+import com.gcl.security.payload.response.MessageResponse;
+import com.gcl.security.repository.RoleRepository;
+import com.gcl.security.repository.UserRepository;
+import com.gcl.security.service.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 

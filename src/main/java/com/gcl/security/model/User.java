@@ -1,4 +1,4 @@
-package com.minita.security.model;
+package com.gcl.security.model;
 
 import java.util.HashSet;
 import java.util.Set;

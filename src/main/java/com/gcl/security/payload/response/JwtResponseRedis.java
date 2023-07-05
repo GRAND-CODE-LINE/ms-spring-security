@@ -1,4 +1,4 @@
-package com.minita.security.payload.response;
+package com.gcl.security.payload.response;
 
 import java.util.List;
 

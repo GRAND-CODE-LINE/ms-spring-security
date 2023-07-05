@@ -1,4 +1,4 @@
-package com.minita.security.jwt;
+package com.gcl.security.jwt;
 
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.minita.security.service.UserDetailsServiceImpl;
+import com.gcl.security.service.UserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

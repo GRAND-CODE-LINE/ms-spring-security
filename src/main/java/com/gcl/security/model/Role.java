@@ -1,4 +1,4 @@
-package com.minita.security.model;
+package com.gcl.security.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

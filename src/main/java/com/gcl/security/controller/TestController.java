@@ -1,4 +1,4 @@
-package com.minita.security.controller;
+package com.gcl.security.controller;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.minita.security.model.Role;
-import com.minita.security.repository.RoleRepository;
+import com.gcl.security.model.Role;
+import com.gcl.security.repository.RoleRepository;
 
 @RestController
 @RequestMapping("/api/test")

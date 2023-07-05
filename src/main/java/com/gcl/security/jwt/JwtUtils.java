@@ -1,4 +1,4 @@
-package com.minita.security.jwt;
+package com.gcl.security.jwt;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.minita.security.service.UserDetailsImpl;
+import com.gcl.security.service.UserDetailsImpl;
 
 import io.jsonwebtoken.*;
 
