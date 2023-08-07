@@ -18,20 +18,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gcl.dental.core.model.security.ERole;
+import com.gcl.dental.core.model.security.Role;
+import com.gcl.dental.core.model.security.User;
+import com.gcl.dental.core.repository.security.RoleRepository;
+import com.gcl.dental.core.repository.security.UserRepository;
 import com.gcl.security.jwt.JwtUtils;
-import com.gcl.security.model.ERole;
-import com.gcl.security.model.Role;
-import com.gcl.security.model.User;
+
 import com.gcl.security.payload.request.LoginRequest;
 import com.gcl.security.payload.request.SignupRequest;
 import com.gcl.security.payload.response.JwtResponse;
 import com.gcl.security.payload.response.MessageResponse;
-import com.gcl.security.repository.RoleRepository;
-import com.gcl.security.repository.UserRepository;
+
 import com.gcl.security.service.UserDetailsImpl;
 
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/api/auth")
@@ -80,14 +81,10 @@ public class AuthController {
 
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()));
+				encoder.encode(signUpRequest.getPassword()), null);
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
-
-
-
-		
 
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)

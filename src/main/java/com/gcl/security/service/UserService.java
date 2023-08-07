@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import com.gcl.dental.core.model.security.User;
 
-import com.gcl.security.model.User;
+
+
 
 public interface UserService {
 

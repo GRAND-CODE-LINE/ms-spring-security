@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gcl.security.model.Role;
-import com.gcl.security.repository.RoleRepository;
+import com.gcl.dental.core.model.security.Role;
+import com.gcl.dental.core.repository.security.RoleRepository;
+
+
 
 @RestController
 @RequestMapping("/api/test")

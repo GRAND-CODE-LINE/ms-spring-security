@@ -7,8 +7,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gcl.security.model.User;
-import com.gcl.security.repository.UserRepository;
+import com.gcl.dental.core.model.security.User;
+import com.gcl.dental.core.repository.security.UserRepository;
+
 
 
 
