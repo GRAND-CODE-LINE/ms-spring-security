@@ -11,7 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gcl.security.model.User;
+import com.gcl.dental.core.model.security.User;
+
 
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;

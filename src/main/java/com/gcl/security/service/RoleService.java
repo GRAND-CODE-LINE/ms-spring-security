@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.gcl.security.model.Role;
+import com.gcl.dental.core.model.security.Role;
+
+
 
 public interface RoleService {
 

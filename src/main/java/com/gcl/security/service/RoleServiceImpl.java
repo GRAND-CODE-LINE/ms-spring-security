@@ -14,8 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gcl.security.model.Role;
-import com.gcl.security.repository.RoleRepository;
+import com.gcl.dental.core.model.security.Role;
+import com.gcl.dental.core.repository.security.RoleRepository;
+
 
 
 @Service

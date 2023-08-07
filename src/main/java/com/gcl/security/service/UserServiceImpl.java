@@ -15,10 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gcl.dental.core.model.security.User;
+import com.gcl.dental.core.repository.security.UserRepository;
 
-import com.gcl.security.model.User;
 
-import com.gcl.security.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
