@@ -52,9 +52,18 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@CrossOrigin
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+		User usuario = new User();
+		User usuario2 = new User();
+		usuario.setUsername("aaaaaaa");
+		usuario.setEmail("aaaaaaa");
+		usuario.setPassword("aaaaaaa");
+		usuario2 = userRepository.save(usuario);
+		List<User> lists = userRepository.findAll();
+		System.out.println("create, mundo!");
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
