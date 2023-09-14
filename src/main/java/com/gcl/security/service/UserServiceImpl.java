@@ -7,24 +7,41 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.index.Index;
+
+import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort.Direction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcl.dental.core.model.security.User;
 import com.gcl.dental.core.repository.security.UserRepository;
-
-
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	private final MongoOperations mongoOperations;
+
+	@Autowired
+	public UserServiceImpl(MongoOperations mongoOperations) {
+		this.mongoOperations = mongoOperations;
+	}
+
+	public void crearIndiceUnicoEnEmail() {
+		// Obtén el IndexOperations para la colección de Usuarios
+		IndexOperations indexOps = mongoOperations.indexOps(User.class);
+
+		// Crea un índice único en el campo "email"
+		indexOps.ensureIndex(new Index().unique().on("username", Direction.ASC));
+	}
 
 	@Override
 	public User save(User user) {
@@ -40,7 +57,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(User user) {
+
 		userRepository.delete(user);
+
 	}
 
 	@Override
@@ -50,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<User> paginate(Map<String, String> filters) {
-
+		//crearIndiceUnicoEnEmail();
 		ObjectMapper mapper = new ObjectMapper();
 		User pojo = mapper.convertValue(filters, User.class);
 

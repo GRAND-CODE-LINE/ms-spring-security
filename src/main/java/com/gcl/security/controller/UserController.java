@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,6 @@ import com.gcl.security.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -39,7 +39,7 @@ public class UserController {
 	@PostMapping("")
 	public User create(@RequestBody User user) {
 		System.out.println("create, mundo!");
-		user.setPassword(encoder.encode(user.getPassword())); 
+		user.setPassword(encoder.encode(user.getPassword()));
 		return userService.save(user);
 	}
 
@@ -50,15 +50,21 @@ public class UserController {
 
 		return userService.getById(id);
 	}
-	
-	
+
 	@CrossOrigin
 	@PutMapping("{id}")
 	public User update(@PathVariable String id, @RequestBody User user) {
 		System.out.println("create, mundo!");
-		user.setPassword(encoder.encode(user.getPassword())); 
+		user.setPassword(encoder.encode(user.getPassword()));
 		return userService.edit(user);
 	}
-	
+
+	@CrossOrigin
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable String id) {
+		System.out.println("create, mundo!");
+		User user = userService.getById(id).get();
+		userService.delete(user);
+	}
 
 }
