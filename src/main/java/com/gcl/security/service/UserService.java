@@ -12,7 +12,7 @@ import com.gcl.dental.core.model.security.User;
 
 public interface UserService {
 
-	User save(User user);
+	User save(User user) throws Exception;
 
 	User edit(User user);
 

@@ -28,25 +28,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	private final MongoOperations mongoOperations;
-
-	@Autowired
-	public UserServiceImpl(MongoOperations mongoOperations) {
-		this.mongoOperations = mongoOperations;
-	}
-
-	public void crearIndiceUnicoEnEmail() {
-		// Obtén el IndexOperations para la colección de Usuarios
-		IndexOperations indexOps = mongoOperations.indexOps(User.class);
-
-		// Crea un índice único en el campo "email"
-		indexOps.ensureIndex(new Index().unique().on("username", Direction.ASC));
-	}
-
 	@Override
-	public User save(User user) {
+	public User save(User user) throws Exception {
 		System.out.println("Hola, save!");
+		List<User> userSearch = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
+		if (!userSearch.isEmpty()) {
+			throw new Exception("Usuario o email ya registrado.");
+		}
 		return userRepository.save(user);
 	}
 
@@ -69,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<User> paginate(Map<String, String> filters) {
-		//crearIndiceUnicoEnEmail();
+
 		ObjectMapper mapper = new ObjectMapper();
 		User pojo = mapper.convertValue(filters, User.class);
 

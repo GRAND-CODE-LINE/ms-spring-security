@@ -9,12 +9,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @EnableMongoRepositories(basePackages = "com.gcl.dental.core")
-//@SpringBootApplication(exclude = { SecurityAutoConfiguration.class }, scanBasePackages = { "com.gcl.security" })
-@EnableRedisHttpSession
-//@ComponentScan("com.gcl.dental.core")
 
-//@ComponentScan("com.gcl.security")
-//@ComponentScan(basePackages = { "com.gcl.security" })
+@EnableRedisHttpSession
+
+
+
 @SpringBootApplication
 public class SecurityApplication {
 

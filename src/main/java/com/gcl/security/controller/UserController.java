@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gcl.dental.core.dto.ResponseDto;
 import com.gcl.dental.core.model.security.User;
 import com.gcl.security.service.UserService;
 
@@ -37,10 +40,20 @@ public class UserController {
 
 	@CrossOrigin
 	@PostMapping("")
-	public User create(@RequestBody User user) {
+	public ResponseEntity<ResponseDto> create(@RequestBody User user) {
 		System.out.println("create, mundo!");
 		user.setPassword(encoder.encode(user.getPassword()));
-		return userService.save(user);
+		ResponseDto dto = new ResponseDto();
+
+		try {
+			dto.setBody(userService.save(user));
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+
+		} catch (Exception e) {
+			dto.setError(e.getMessage());
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+
+		}
 	}
 
 	@CrossOrigin

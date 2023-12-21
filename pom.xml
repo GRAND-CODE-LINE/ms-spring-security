@@ -62,6 +62,7 @@
 			<groupId>com.gcl</groupId>
 			<artifactId>dental.core</artifactId>
 			<version>1.0.2</version>
+			
 		</dependency>
 	</dependencies>
 	<build>
