@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,13 +57,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-		User usuario = new User();
-		User usuario2 = new User();
-		usuario.setUsername("aaaaaaa");
-		usuario.setEmail("aaaaaaa");
-		usuario.setPassword("aaaaaaa");
-		usuario2 = userRepository.save(usuario);
-		List<User> lists = userRepository.findAll();
+
 		System.out.println("create, mundo!");
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -126,5 +121,10 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	
+	@GetMapping("/validatetoken")
+	public String validatetoken() {
+		return "Valid";
 	}
 }

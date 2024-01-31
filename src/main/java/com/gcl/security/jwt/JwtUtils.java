@@ -33,6 +33,8 @@ public class JwtUtils {
 	       
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
+				.setIssuer("http://localhost:8081/api/auth/login")
+				
 				.setIssuedAt(new Date())
 				.setExpiration(currDate)
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)

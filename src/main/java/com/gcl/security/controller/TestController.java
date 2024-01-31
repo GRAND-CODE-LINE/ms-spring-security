@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gcl.dental.core.model.security.Role;
 import com.gcl.dental.core.repository.security.RoleRepository;
 
-
-
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
 	@Autowired
 	RoleRepository roleRepository;
+
 	@GetMapping("/all")
 	public List<Role> allAccess() {
 		return roleRepository.findAll();
@@ -42,4 +41,6 @@ public class TestController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
+
+
 }

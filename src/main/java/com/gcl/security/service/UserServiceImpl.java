@@ -7,18 +7,20 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.index.Index;
+
+import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort.Direction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcl.dental.core.model.security.User;
 import com.gcl.dental.core.repository.security.UserRepository;
-
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,9 +29,13 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Override
-	public User save(User user) {
+	public User save(User user) throws Exception {
 		System.out.println("Hola, save!");
+		List<User> userSearch = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
+		if (!userSearch.isEmpty()) {
+			throw new Exception("Usuario o email ya registrado.");
+		}
 		return userRepository.save(user);
 	}
 
@@ -40,7 +46,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(User user) {
+
 		userRepository.delete(user);
+
 	}
 
 	@Override
