@@ -2,45 +2,46 @@ package com.gcl.security.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gcl.dental.core.model.security.Role;
-import com.gcl.dental.core.repository.security.RoleRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 @RestController
-@RequestMapping("/api/test")
+@EnableMethodSecurity
 public class TestController {
-	@Autowired
-	RoleRepository roleRepository;
+	
+	@GetMapping("/hello-1")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String helloAdmin(){
+        return "Hello Sprig Boot With Keycloak with ADMIN";
+    }
 
-	@GetMapping("/all")
-	public List<Role> allAccess() {
-		return roleRepository.findAll();
-	}
-
-	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public String userAccess() {
-		return "User Content.";
-	}
-
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
-	public List<Role> moderatorAccess() {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		return roleRepository.findAll();
-	}
-
-	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String adminAccess() {
-		return "Admin Board.";
-	}
-
+    @GetMapping("/hello-2")
+    //@PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
+    public String helloUser() throws JsonProcessingException{
+    	   Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	   ObjectMapper objectMapper = new ObjectMapper();
+    	   objectMapper.registerModule(new JavaTimeModule());
+    	   String jsonString = objectMapper.writeValueAsString(authentication.getPrincipal());
+    	   System.out.println(jsonString);
+    	   System.out.println("authentication: " + authentication.getPrincipal().toString());
+           if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+               UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+               String role = userDetails.getAuthorities().iterator().next().getAuthority();
+               System.out.println("Rol del token: " + role);
+           }
+        return "Hello Sprig Boot With Keycloak with USER";
+    }
+	
 
 }
