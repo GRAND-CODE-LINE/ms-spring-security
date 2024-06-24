@@ -25,59 +25,6 @@ import com.gcl.security.service.UserService;
 @RestController
 @RequestMapping("/api/user/")
 public class UserController {
-	@Autowired
-	private UserService userService;
 
-	@Autowired
-	PasswordEncoder encoder;
-
-	@CrossOrigin
-	@PostMapping("paginate")
-	Page<User> paginate(@RequestBody Map<String, String> filter) {
-		System.out.println("Hola, mundo!");
-		return userService.paginate(filter);
-	}
-
-	@CrossOrigin
-	@PostMapping("")
-	public ResponseEntity<ResponseDto> create(@RequestBody User user) {
-		System.out.println("create, mundo!");
-		user.setPassword(encoder.encode(user.getPassword()));
-		ResponseDto dto = new ResponseDto();
-
-		try {
-			dto.setBody(userService.save(user));
-			return new ResponseEntity<>(dto, HttpStatus.OK);
-
-		} catch (Exception e) {
-			dto.setError(e.getMessage());
-			return new ResponseEntity<>(dto, HttpStatus.OK);
-
-		}
-	}
-
-	@CrossOrigin
-	@GetMapping("{id}")
-	public Optional<User> getById(@PathVariable String id) {
-		System.out.println("create, mundo!");
-
-		return userService.getById(id);
-	}
-
-	@CrossOrigin
-	@PutMapping("{id}")
-	public User update(@PathVariable String id, @RequestBody User user) {
-		System.out.println("create, mundo!");
-		user.setPassword(encoder.encode(user.getPassword()));
-		return userService.edit(user);
-	}
-
-	@CrossOrigin
-	@DeleteMapping("{id}")
-	public void delete(@PathVariable String id) {
-		System.out.println("create, mundo!");
-		User user = userService.getById(id).get();
-		userService.delete(user);
-	}
 
 }
