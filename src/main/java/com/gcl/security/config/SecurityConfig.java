@@ -12,12 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,15 +36,25 @@ public class SecurityConfig {
 	// private final JwtAuthenticationConverter jwtAuthenticationConverter;
 
 	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("*");
+			}
+		};
+	}
+
+	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests(http -> {
-			// http.requestMatchers("/create-user").permitAll();
+		return httpSecurity.cors().and().csrf(csrf -> csrf.disable()).authorizeHttpRequests(http -> {
+			// http.requestMatchers(HttpMethod.OPTIONS).permitAll();
 
 			http.anyRequest().authenticated();
+
 		}).oauth2ResourceServer(configure -> configure.jwt().jwtAuthenticationConverter(jwtAuthConverter()))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();
 	}
-
 
 	Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthConverter() {
 		JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
@@ -55,13 +68,14 @@ public class SecurityConfig {
 class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 	@Override
 	public Collection<GrantedAuthority> convert(Jwt jwt) {
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		if (jwt.getClaims() == null) {
 			return List.of();
 		}
 
 		final Map<String, List<String>> realmAccess = (Map<String, List<String>>) jwt.getClaims().get("realm_access");
 
-		return realmAccess.get("roles").stream().map(roleName -> "ROLE_" + roleName.toUpperCase()).map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+		return realmAccess.get("roles").stream().map(roleName -> "ROLE_" + roleName.toUpperCase())
+				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 }
