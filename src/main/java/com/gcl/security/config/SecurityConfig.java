@@ -2,11 +2,8 @@ package com.gcl.security.config;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,8 +17,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.HttpMethod;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	// private final JwtAuthenticationConverter jwtAuthenticationConverter;
-
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
@@ -48,8 +41,7 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity.cors().and().csrf(csrf -> csrf.disable()).authorizeHttpRequests(http -> {
-			// http.requestMatchers(HttpMethod.OPTIONS).permitAll();
-
+			
 			http.anyRequest().authenticated();
 
 		}).oauth2ResourceServer(configure -> configure.jwt().jwtAuthenticationConverter(jwtAuthConverter()))
@@ -68,7 +60,7 @@ public class SecurityConfig {
 class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 	@Override
 	public Collection<GrantedAuthority> convert(Jwt jwt) {
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		
 		if (jwt.getClaims() == null) {
 			return List.of();
 		}
