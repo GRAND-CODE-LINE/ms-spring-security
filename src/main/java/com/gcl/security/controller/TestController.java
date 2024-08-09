@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,12 +21,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @EnableMethodSecurity
 public class TestController {
 	
+	@CrossOrigin
 	@GetMapping("/hello-1")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String helloAdmin(){
         return "Hello Sprig Boot With Keycloak with ADMIN";
     }
 
+	@CrossOrigin
     @GetMapping("/hello-2")
     //@PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     public String helloUser() throws JsonProcessingException{
